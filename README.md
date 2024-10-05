@@ -18,10 +18,12 @@ This project is a backend application using Go, GraphQL, and PostgreSQL with GOR
 3. Set up the database:
 
 - Create a new PostgreSQL database:
+
   ```
   createdb grocery_db
 
   ```
+
 - Update the database connection string in `internal/config/config.go` if necessary.
 
 1. Generate GraphQL code:
@@ -162,6 +164,8 @@ func (s *productService) CreateProduct(ctx context.Context, product *models.Prod
 
 ```
 
+## GRAPHQL
+
 ### Step 4: Create resolver
 
 ### Go into `graphql/resolver/product.go`
@@ -212,7 +216,7 @@ type Mutation {
 
 ### Step 6: Define input type
 
-### Go into `graphql/schema/schema.go`
+### Go into `graphql/schema.graphqls`
 
 ```
 input ProductInput {
@@ -225,7 +229,7 @@ input ProductInput {
 
 ### Step 7: Implement resolver
 
-### Go into `graphql/resolver/product.go`
+### Go into `graphql/resolver/product_resolver.go`
 
 ```
 func (r *ProductResolver) GetProductByID(ctx context.Context, args struct{ ID string }) (*models.Product, error) {
@@ -274,12 +278,3 @@ Project Structure
 - graph/: Contains GraphQL-related files.
 - migrations/: Contains database migration files (if any).
 - scripts/: Contains utility scripts.
-
-graph/
-├── generated/
-│ └── generated.go
-├── model/
-│ └── models_gen.go
-├── schema.resolvers.go
-└── schema.graphqls
-|-- resolver.go
