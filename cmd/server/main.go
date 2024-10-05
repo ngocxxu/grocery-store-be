@@ -7,23 +7,21 @@ import (
 	"github.com/ngocxxu/grocery-store-svelte-be/internal/config"
 	"github.com/ngocxxu/grocery-store-svelte-be/internal/db"
 	"github.com/ngocxxu/grocery-store-svelte-be/internal/handler"
-	"github.com/ngocxxu/grocery-store-svelte-be/internal/model"
 	"github.com/ngocxxu/grocery-store-svelte-be/internal/repository"
 	"github.com/ngocxxu/grocery-store-svelte-be/internal/service"
+	"github.com/ngocxxu/grocery-store-svelte-be/migrations"
 )
 
 func main() {
     cfg := config.New()
-
     database, err := db.New(cfg.DatabaseURL)
     if err != nil {
         log.Fatalf("Failed to connect to database: %v", err)
     }
 
-    // Auto Migrate
-    err = database.AutoMigrate(&model.User{})
-    if err != nil {
-        log.Fatalf("Failed to migrate database: %v", err)
+    // Run migrations
+    if err := migrations.RunMigrations(database); err != nil {
+        log.Fatalf("Failed to run migrations: %v", err)
     }
 
     userRepo := repository.NewUserRepository(database)
@@ -32,6 +30,6 @@ func main() {
     http.Handle("/", handler.NewPlaygroundHandler())
     http.Handle("/query", handler.NewGraphQLHandler(userService))
 
-		log.Printf("Connect to http://localhost:%s/ for GraphQL playground", cfg.Port)
+    log.Printf("Connect to http://localhost:%s/ for GraphQL playground", cfg.Port)
     log.Fatal(http.ListenAndServe(":"+cfg.Port, nil))
 }

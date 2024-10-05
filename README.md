@@ -278,3 +278,39 @@ Project Structure
 - graph/: Contains GraphQL-related files.
 - migrations/: Contains database migration files (if any).
 - scripts/: Contains utility scripts.
+
+## 
+```
+.
+├── cmd
+│   └── server
+│       └── main.go
+├── internal
+│   ├── config
+│   │   └── config.go
+│   ├── db
+│   │   └── db.go
+│   ├── handler
+│   │   └── graphql.go
+│   ├── model
+│   │   └── user.go
+│   ├── repository
+│   │   └── user_repository.go
+│   └── service
+│       └── user_service.go
+├── pkg
+│   └── utils
+│       └── utils.go
+├── graph
+│   ├── generated
+│   ├── model
+│   ├── resolvers
+│   └── schema.graphqls
+├── migrations
+│   └── 001_create_users_table.sql
+├── scripts
+│   └── seed.go
+├── go.mod
+├── go.sum
+└── README.md
+```
