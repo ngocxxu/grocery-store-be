@@ -107,7 +107,11 @@ type Product struct {
 
 ```
 
-### Step 2: Create repository
+## Step 2: Add new migration
+
+### Go into `migrations/migrations.go`
+
+### Step 3: Create repository
 
 ### Go into `internal/repository/product.go`
 
@@ -135,7 +139,7 @@ func (r *productRepository) CreateProduct(ctx context.Context, product *models.P
 
 ```
 
-### Step 3: Create service
+### Step 4: Create service
 
 ### Go into `internal/service/product.go`
 
@@ -166,7 +170,7 @@ func (s *productService) CreateProduct(ctx context.Context, product *models.Prod
 
 ## GRAPHQL
 
-### Step 4: Create resolver
+### Step 5: Create resolver
 
 ### Go into `graphql/resolver/product.go`
 
@@ -188,7 +192,7 @@ func (r *ProductResolver) CreateProduct(ctx context.Context, args struct{ Produc
 
 ```
 
-### Step 5: Create schema
+### Step 6: Create schema
 
 ### Go into `graph/schema.graphqls`
 
@@ -214,7 +218,7 @@ type Mutation {
 
 ```
 
-### Step 6: Define input type
+### Step 7: Define input type
 
 ### Go into `graphql/schema.graphqls`
 
@@ -227,7 +231,7 @@ input ProductInput {
 
 ```
 
-### Step 7: Implement resolver
+### Step 8: Implement resolver
 
 ### Go into `graphql/resolver/product_resolver.go`
 
@@ -249,7 +253,7 @@ func (r *ProductResolver) DeleteProduct(ctx context.Context, args struct{ ID str
 
 ```
 
-### Step 8: Combine resolver into graphql
+### Step 9: Combine resolver into graphql
 
 ### Go into `cmd/server/main.go`
 
@@ -279,7 +283,8 @@ Project Structure
 - migrations/: Contains database migration files (if any).
 - scripts/: Contains utility scripts.
 
-## 
+##
+
 ```
 .
 ├── cmd
