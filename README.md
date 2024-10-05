@@ -20,7 +20,9 @@ This project is a backend application using Go, GraphQL, and PostgreSQL.
 
 6. Open http://localhost:8080 in your browser to access the GraphQL playground.
 
-## Usage
+## Usage GraphQL
+
+go run github.com/99designs/gqlgen generate
 
 Example queries and mutations:
 
@@ -55,6 +57,7 @@ query {
   }
 }
 ```
+
 ## Database
 
 This project uses GORM as an ORM. The database schema is automatically managed by GORM's AutoMigrate feature.
@@ -76,3 +79,4 @@ To seed the database with initial data:
 
 
 go run scripts/seed.go
+```
