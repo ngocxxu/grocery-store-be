@@ -10,8 +10,7 @@ model:
   package: model
 
 resolver:
-  layout: follow-schema
-  dir: graph
-  package: graph
+  filename: graph/resolvers/resolver.go
+  type: Resolver
 
 autobind: []
