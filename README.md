@@ -1,82 +1,90 @@
 # Go GraphQL PostgreSQL Project
 
-This project is a backend application using Go, GraphQL, and PostgreSQL.
+This project is a backend application using Go, GraphQL, and PostgreSQL with GORM as the ORM.
 
-## Setup
+## Prerequisites
 
-1. Install dependencies:
+- Go (version 1.16 or later)
+- PostgreSQL
+- Git
+
+## Installation
+
+1. Clone the repository:
+   git clone https://github.com/ngocxxu/grocery-store-svelte-be.git
+   cd grocery-store-svelte-be
+
+2. Install dependencies:
    go mod tidy
 
-2. Set up your PostgreSQL database and update the `DATABASE_URL` in `internal/config/config.go`.
+3. Set up the database:
 
-3. Run database migrations:
-   psql -U your_username -d your_database_name -a -f migrations/001_create_users_table.sql
+- Create a new PostgreSQL database:
+  ```
+  createdb graphql_db
+  ```
+- Update the database connection string in `internal/config/config.go` if necessary.
 
-4. (Optional) Seed the database:
-   go run scripts/seed.go
+4. Generate GraphQL code:
+   go run github.com/99designs/gqlgen generate
 
-5. Run the server:
+## Configuration
+
+- Database configuration can be found in `internal/config/config.go`.
+- GraphQL schema is defined in `graph/schema.graphqls`.
+
+## Running the Application
+
+1. Start the server:
    go run cmd/server/main.go
 
-6. Open http://localhost:8080 in your browser to access the GraphQL playground.
+2. The GraphQL playground will be available at `http://localhost:8080`.
 
-## Usage GraphQL
+## Database Migrations
 
-go run github.com/99designs/gqlgen generate
+This project uses GORM's AutoMigrate feature. The database schema will be automatically updated when you run the application.
 
-Example queries and mutations:
-
-1. Create a new user:
-
-```graphql
-mutation {
-  createUser(name: "Alice", email: "alice@example.com") {
-    id
-    name
-    email
-  }  }
-
-
-2. Query all users:
-
-query {
-  users {
-    id
-    name
-    email
-  }
-}
-
-3. Query a specific user:
-
-query {
-  user(id: "1") {
-    id
-    name
-    email
-  }
-}
-```
-
-## Database
-
-This project uses GORM as an ORM. The database schema is automatically managed by GORM's AutoMigrate feature.
-
-To manually create the database:
-
-```sql
-CREATE DATABASE graphql_db;
-To run the application:
-
-Ensure your PostgreSQL server is running.
-Set the DATABASE_URL environment variable or update it in internal/config/config.go.
-Run the application:
-
-go run cmd/server/main.go
-This will automatically create the necessary tables in your database.
+## Seeding the Database
 
 To seed the database with initial data:
-
-
 go run scripts/seed.go
-```
+
+## GraphQL Queries and Mutations
+
+Here are some example queries and mutations you can run in the GraphQL playground:
+
+1. Create a new user:
+   ```graphql
+   mutation {
+     createUser(input: {name: "John Doe", email: "john@example.com"}) {
+       id
+       name
+       email
+     }
+   }
+   Query all users:
+   ```
+
+query {
+users {
+id
+name
+email
+}
+}
+Query a specific user:
+
+query {
+user(id: "1") {
+id
+name
+email
+}
+}
+
+Project Structure
+cmd/: Contains the main application entry points.
+internal/: Contains the internal packages of the application.
+graph/: Contains GraphQL-related files.
+migrations/: Contains database migration files (if any).
+scripts/: Contains utility scripts.
