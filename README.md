@@ -88,3 +88,12 @@ internal/: Contains the internal packages of the application.
 graph/: Contains GraphQL-related files.
 migrations/: Contains database migration files (if any).
 scripts/: Contains utility scripts.
+
+graph/
+  ├── generated/
+  │   └── generated.go
+  ├── model/
+  │   └── models_gen.go
+  ├── schema.resolvers.go
+  └── schema.graphqls
+  |-- resolver.go
