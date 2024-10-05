@@ -1,0 +1,26 @@
+# Compiled output
+dist/
+tmp/
+out-tsc/
+bazel-out/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Go
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+bin/
+pkg/
+
+# Docker
+.env
+
+# Misc
+.DS_Store
+Thumbs.db

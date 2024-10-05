@@ -1,6 +1,10 @@
 package config
 
-import "os"
+import (
+    "os"
+
+    "github.com/joho/godotenv"
+)
 
 type Config struct {
     DatabaseURL string
@@ -8,8 +12,13 @@ type Config struct {
 }
 
 func New() *Config {
+    err := godotenv.Load()
+    if err != nil {
+        panic("Error loading .env file")
+    }
+
     return &Config{
-        DatabaseURL: getEnv("DATABASE_URL", "host=localhost user=postgres password=postgres dbname=graphql_db port=5432 sslmode=disable TimeZone=Asia/Shanghai"),
+        DatabaseURL: getEnv("DATABASE_URL", ""),
         Port:        getEnv("PORT", "8080"),
     }
 }

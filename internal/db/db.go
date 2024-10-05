@@ -1,8 +1,10 @@
 package db
 
 import (
-    "gorm.io/driver/postgres"
-    "gorm.io/gorm"
+	"fmt"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 func New(databaseURL string) (*gorm.DB, error) {
@@ -10,5 +12,18 @@ func New(databaseURL string) (*gorm.DB, error) {
     if err != nil {
         return nil, err
     }
+
+    // Check connection
+    sqlDB, err := db.DB()
+    if err != nil {
+        return nil, err
+    }
+
+    if err := sqlDB.Ping(); err != nil {
+        return nil, err
+    }
+
+    fmt.Println("Connected to database successfully at port 5432!")
+
     return db, nil
 }
