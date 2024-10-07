@@ -22,32 +22,32 @@ var migrations = []Migration{
 		},
 	},
 	{
-		ID: "202310062_create_units_table", // Unit trước
+		ID: "202310062_create_units_table",
 		Migrate: func(db *gorm.DB) error {
 						return db.AutoMigrate(&model.Unit{})
 		},
 		Rollback: func(db *gorm.DB) error {
 						return db.Migrator().DropTable("units")
 		},
-},
-{
-		ID: "202310063_create_weight_options_table",
-		Migrate: func(db *gorm.DB) error {
-						return db.AutoMigrate(&model.WeightOption{})
-		},
-		Rollback: func(db *gorm.DB) error {
-						return db.Migrator().DropTable("weight_options")
-		},
-},
-{
-		ID: "202310064_create_products_table",
-		Migrate: func(db *gorm.DB) error {
-						return db.AutoMigrate(&model.Product{})
-		},
-		Rollback: func(db *gorm.DB) error {
-						return db.Migrator().DropTable("products")
-		},
-},
+	},
+	{
+			ID: "202310063_create_weight_options_table",
+			Migrate: func(db *gorm.DB) error {
+							return db.AutoMigrate(&model.WeightOption{})
+			},
+			Rollback: func(db *gorm.DB) error {
+							return db.Migrator().DropTable("weight_options")
+			},
+	},
+	{
+			ID: "202310064_create_products_table",
+			Migrate: func(db *gorm.DB) error {
+							return db.AutoMigrate(&model.Product{})
+			},
+			Rollback: func(db *gorm.DB) error {
+							return db.Migrator().DropTable("products")
+			},
+	},
 }
 
 func RunMigrations(db *gorm.DB) error {

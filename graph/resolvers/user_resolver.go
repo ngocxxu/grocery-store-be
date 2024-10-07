@@ -8,12 +8,11 @@ import (
 	"context"
 	"strconv"
 
-	"github.com/ngocxxu/grocery-store-svelte-be/graph/generated"
 	"github.com/ngocxxu/grocery-store-svelte-be/graph/model"
 )
 
 // CreateUser is the resolver for the createUser field.
-func (r *mutationResolver) CreateUser(ctx context.Context, name string, email string) (*model.User, error) {
+func (r *Resolver) CreateUser(ctx context.Context, name string, email string) (*model.User, error) {
 	user, err := r.UserService.CreateUser(name, email)
 	if err != nil {
 		return nil, err
@@ -26,7 +25,7 @@ func (r *mutationResolver) CreateUser(ctx context.Context, name string, email st
 }
 
 // Users is the resolver for the users field.
-func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+func (r *Resolver) Users(ctx context.Context) ([]*model.User, error) {
 	users, err := r.UserService.GetUsers()
 	if err != nil {
 		return nil, err
@@ -43,7 +42,7 @@ func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 }
 
 // User is the resolver for the user field.
-func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error) {
+func (r *Resolver) User(ctx context.Context, id string) (*model.User, error) {
 	user, err := r.UserService.GetUser(id)
 	if err != nil {
 		return nil, err
@@ -54,12 +53,3 @@ func (r *queryResolver) User(ctx context.Context, id string) (*model.User, error
 		Email: user.Email,
 	}, nil
 }
-
-// Mutation returns generated.MutationResolver implementation.
-func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
-
-// Query returns generated.QueryResolver implementation.
-func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
-
-type mutationResolver struct{ *Resolver }
-type queryResolver struct{ *Resolver }

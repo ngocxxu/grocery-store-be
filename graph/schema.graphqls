@@ -12,3 +12,53 @@ type Query {
 type Mutation {
   createUser(name: String!, email: String!): User!
 }
+
+type Product {
+  id: ID!
+  name: String!
+  description: String!
+  type: String!
+  sku: String!
+  status: String!
+  price: Float!
+  discount: Float!
+  rating: Int!
+  quantity: Int!
+  weightOptions: [WeightOption!]!
+  createdAt: Time!
+  updatedAt: Time!
+}
+
+type Query {
+  products: [Product!]!
+  product(id: ID!): Product
+}
+
+type Mutation {
+  createProduct(input: ProductInput!): Product!
+}
+
+type WeightOption {
+  id: ID!
+  weight: Float!
+  unit: Unit!
+}
+
+type Unit {
+  id: ID!
+  name: String!
+  abbreviation: String!
+}
+
+input ProductInput {
+  name: String!
+  description: String!
+  type: String!
+  sku: String!
+  status: String!
+  price: Float!
+  discount: Float!
+  rating: Int!
+  quantity: Int!
+  weightOptions: [WeightOption!]!
+}

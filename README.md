@@ -113,7 +113,21 @@ type Product struct {
 
 ### Go into `migrations/migrations.go`
 
-### Step 3: Create repository
+```
+var migrations = []Migration{
+	{
+		ID: "202310064_create_products_table",
+		Migrate: func(db *gorm.DB) error {
+		return db.AutoMigrate(&model.Product{})
+		},
+		Rollback: func(db *gorm.DB) error {
+		return db.Migrator().DropTable("products")
+		},
+	},
+}
+```
+
+## Step 3: Create repository
 
 ### Go into `internal/repository/product.go`
 
@@ -141,7 +155,7 @@ func (r *productRepository) CreateProduct(ctx context.Context, product *models.P
 
 ```
 
-### Step 4: Create service
+## Step 4: Create service
 
 ### Go into `internal/service/product.go`
 
@@ -170,31 +184,37 @@ func (s *productService) CreateProduct(ctx context.Context, product *models.Prod
 
 ```
 
-## GRAPHQL
+# GRAPHQL
 
-### Step 5: Create resolver
+## Step 5: Add resolver
 
-### Go into `graphql/resolver/product.go`
+### Go into `graphql/resolvers/resolver.go`
 
 ```
-type ProductResolver struct {
-    service ProductService
+type Resolver struct{
+    UserService *service.UserService
+    ProductService *service.ProductService
 }
-
-func NewProductResolver(service ProductService) *ProductResolver {
-    return &ProductResolver{service: service}
-}
-
-func (r *ProductResolver) CreateProduct(ctx context.Context, args struct{ Product *models.Product }) (*models.Product, error) {
-    product, err := r.service.CreateProduct(ctx, args.Product)
-    return product, err
-}
-
-// Implement other resolver methods
 
 ```
 
-### Step 6: Create schema
+### Go into `internal/handler/graphql.go`
+
+```
+func NewGraphQLHandler(userService *service.UserService, productService *service.ProductService) http.Handler {
+	return handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{UserService: userService, ProductService: productService}}))
+}
+```
+
+### Go into `cmd/server/main.go`
+
+```
+productRepo := repository.NewProductRepository(database)
+productService := service.NewProductService(productRepo)
+
+```
+
+## Step 6: Create schema
 
 ### Go into `graph/schema.graphqls`
 
@@ -218,22 +238,14 @@ type Mutation {
     createProduct(product: ProductInput!): Product!
     updateProduct(id: ID!,
 
-```
-
-### Step 7: Define input type
-
-### Go into `graphql/schema.graphqls`
-
-```
 input ProductInput {
     name: String!
     description: String!
     price: Float!
 }
-
 ```
 
-### Step 8: Implement resolver
+## Step 7: Implement resolver
 
 ### Go into `graphql/resolver/product_resolver.go`
 
@@ -255,7 +267,7 @@ func (r *ProductResolver) DeleteProduct(ctx context.Context, args struct{ ID str
 
 ```
 
-### Step 9: Combine resolver into graphql
+## Step 8: Combine resolver into graphql
 
 ### Go into `cmd/server/main.go`
 
@@ -265,7 +277,6 @@ func main() {
 
     productRepo := repository.NewProductRepository(db)
     productService := service.NewProductService(productRepo)
-    productResolver := resolver.NewProductResolver(productService)
 
     schema := graphql.MustParseSchema(schema.Schema, &resolver.Resolver{
         ProductResolver: productResolver,
