@@ -27,7 +27,7 @@ This project is a backend application using Go, GraphQL, and PostgreSQL with GOR
 - Update the database connection string in `internal/config/config.go` if necessary.
 
 1. Generate GraphQL code:
-   go run [github.com/99designs/gqlgen](http://github.com/99designs/gqlgen) generate
+   `go run [github.com/99designs/gqlgen](http://github.com/99designs/gqlgen) generate`
 
 ## Configuration
 
@@ -37,17 +37,19 @@ This project is a backend application using Go, GraphQL, and PostgreSQL with GOR
 ## Running the Application
 
 1. Start the server:
-   go run cmd/server/main.go
+   `go run cmd/server/main.go`
 2. The GraphQL playground will be available at `http://localhost:8080`.
 
 ## Database Migrations
 
 This project uses GORM's AutoMigrate feature. The database schema will be automatically updated when you run the application.
 
+- `go run main.go migrate up`
+
 ## Seeding the Database
 
 To seed the database with initial data:
-go run scripts/seed.go
+`go run scripts/seed.go`
 
 ## GraphQL Queries and Mutations
 
@@ -279,6 +281,8 @@ Project Structure
 
 - cmd/: Contains the main application entry points.
 - internal/: Contains the internal packages of the application.
+- internal/repository: Interactive with SQL (CRUD)
+- internal/service: Handle logic concern with entity
 - graph/: Contains GraphQL-related files.
 - migrations/: Contains database migration files (if any).
 - scripts/: Contains utility scripts.
