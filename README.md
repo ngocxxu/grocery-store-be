@@ -231,12 +231,16 @@ type Product {
 }
 
 type Query {
-    getProductByID(id: ID!): Product
+  users: [User!]!
+  user(id: ID!): User
+  products: [Product!]!
+  product(id: ID!): Product
 }
 
 type Mutation {
-    createProduct(product: ProductInput!): Product!
-    updateProduct(id: ID!,
+  createUser(name: String!, email: String!): User!
+  createProduct(input: ProductInput!): Product!
+}
 
 input ProductInput {
     name: String!
@@ -298,7 +302,17 @@ Project Structure
 - migrations/: Contains database migration files (if any).
 - scripts/: Contains utility scripts.
 
-##
+### Error Handling
+
+```
+
+go clean -modcache
+rm -rf go.sum
+rm -rf go.mod
+
+```
+
+### Structure
 
 ```
 .

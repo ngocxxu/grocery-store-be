@@ -4,15 +4,6 @@ type User {
   email: String!
 }
 
-type Query {
-  users: [User!]!
-  user(id: ID!): User
-}
-
-type Mutation {
-  createUser(name: String!, email: String!): User!
-}
-
 type Product {
   id: ID!
   name: String!
@@ -29,15 +20,6 @@ type Product {
   updatedAt: Time!
 }
 
-type Query {
-  products: [Product!]!
-  product(id: ID!): Product
-}
-
-type Mutation {
-  createProduct(input: ProductInput!): Product!
-}
-
 type WeightOption {
   id: ID!
   weight: Float!
@@ -50,6 +32,23 @@ type Unit {
   abbreviation: String!
 }
 
+type Query {
+  users: [User!]!
+  user(id: ID!): User
+  products: [Product!]!
+  product(id: ID!): Product
+}
+
+type Mutation {
+  createUser(name: String!, email: String!): User!
+  createProduct(input: ProductInput!): Product!
+}
+
+input WeightOptionInput {
+  weight: Float!
+  unitId: ID! # We use ID instead of Unit object
+}
+
 input ProductInput {
   name: String!
   description: String!
@@ -60,5 +59,7 @@ input ProductInput {
   discount: Float!
   rating: Int!
   quantity: Int!
-  weightOptions: [WeightOption!]!
+  weightOptions: [WeightOptionInput!]!
 }
+
+scalar Time
