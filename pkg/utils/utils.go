@@ -23,3 +23,19 @@ func ConvertToGraphWeightOptions(internalWeightOptions []internalModel.WeightOpt
 	}
 	return graphWeightOptions
 }
+
+func ConvertToGraphProduct(product *internalModel.Product) *graphModel.Product {
+	return &graphModel.Product{
+		ID:            strconv.FormatUint(uint64(product.ID), 10),
+		Name:          product.Name,
+		Description:   product.Description,
+		Type:          product.Type,
+		Sku:           product.Sku,
+		Status:        product.Status,
+		Price:         product.Price,
+		Discount:      product.Discount,
+		Rating:        int(product.Rating),
+		Quantity:      int(product.Quantity),
+		WeightOptions: ConvertToGraphWeightOptions(product.WeightOptions),
+	}
+}

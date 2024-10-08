@@ -46,19 +46,7 @@ func (r *Resolver) CreateProduct(ctx context.Context, input *graphModel.ProductI
 		return nil, err
 	}
 
-	return &graphModel.Product{
-		ID:            strconv.FormatUint(uint64(product.ID), 10),
-		Name:          product.Name,
-		Description:   product.Description,
-		Type:          product.Type,
-		Sku:           product.Sku,
-		Status:        product.Status,
-		Price:         product.Price,
-		Discount:      product.Discount,
-		Rating:        int(product.Rating),
-		Quantity:      int(product.Quantity),
-		WeightOptions: utils.ConvertToGraphWeightOptions(internalProduct.WeightOptions),
-	}, nil
+	return utils.ConvertToGraphProduct(product), nil
 }
 
 // Products is the resolver for the products field.
@@ -68,11 +56,8 @@ func (r *Resolver) Products(ctx context.Context) ([]*graphModel.Product, error) 
 		return nil, err
 	}
 	var result []*graphModel.Product
-	for _, u := range products {
-		result = append(result, &graphModel.Product{
-			ID:   strconv.FormatUint(uint64(u.ID), 10),
-			Name: u.Name,
-		})
+	for _, product := range products {
+		result = append(result, utils.ConvertToGraphProduct(product))
 	}
 	return result, nil
 }
@@ -83,8 +68,5 @@ func (r *Resolver) Product(ctx context.Context, id string) (*graphModel.Product,
 	if err != nil {
 		return nil, err
 	}
-	return &graphModel.Product{
-		ID:   strconv.FormatUint(uint64(product.ID), 10),
-		Name: product.Name,
-	}, nil
+	return utils.ConvertToGraphProduct(product), nil
 }
