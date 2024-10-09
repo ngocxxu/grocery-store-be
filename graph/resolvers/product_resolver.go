@@ -40,6 +40,12 @@ func (r *ProductResolver) CreateProduct(ctx context.Context, input *graphModel.P
 		if err != nil {
 			return nil, fmt.Errorf("invalid unit ID: %v", err)
 		}
+
+		internalProduct.WeightOptions[i] = internalModel.WeightOption{
+			Weight: optInput.Weight,
+			UnitID: uint(unitID),
+		}
+
 		internalProduct.WeightOptions[i] = internalModel.WeightOption{
 			Weight: optInput.Weight,
 			UnitID: uint(unitID),
@@ -60,6 +66,7 @@ func (r *ProductResolver) Products(ctx context.Context) ([]*graphModel.Product, 
 	if err != nil {
 		return nil, err
 	}
+
 	var result []*graphModel.Product
 	for _, product := range products {
 		result = append(result, utils.ConvertToGraphProduct(product))

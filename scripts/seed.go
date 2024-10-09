@@ -9,26 +9,26 @@ import (
 )
 
 func main() {
-    cfg := config.New()
+	cfg := config.New()
 
-    database, err := db.New(cfg.DatabaseURL)
-    if err != nil {
-        log.Fatalf("Failed to connect to database: %v", err)
-    }
+	database, err := db.New(cfg.DatabaseURL)
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
 
-    users := []model.User{
-        {Name: "John Doe", Email: "john@example.com"},
-        {Name: "Jane Smith", Email: "jane@example.com"},
-    }
+	units := []model.Unit{
+		{Name: "Kilogram", Abbreviation: "Kg"},
+		{Name: "Gram", Abbreviation: "g"},
+	}
 
-    for _, user := range users {
-        result := database.Create(&user)
-        if result.Error != nil {
-            log.Printf("Failed to seed user %s: %v", user.Name, result.Error)
-        } else {
-            log.Printf("Seeded user: %s", user.Name)
-        }
-    }
+	for _, unit := range units {
+		result := database.Create(&unit)
+		if result.Error != nil {
+			log.Printf("Failed to seed unit %s: %v", unit.Name, result.Error)
+		} else {
+			log.Printf("Seeded unit: %s", unit.Name)
+		}
+	}
 
-    log.Println("Seed data inserted successfully")
+	log.Println("Seed data inserted successfully")
 }
