@@ -57,6 +57,7 @@ type ComplexityRoot struct {
 		Description   func(childComplexity int) int
 		Discount      func(childComplexity int) int
 		ID            func(childComplexity int) int
+		Image         func(childComplexity int) int
 		Name          func(childComplexity int) int
 		Price         func(childComplexity int) int
 		Quantity      func(childComplexity int) int
@@ -175,6 +176,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Product.ID(childComplexity), true
+
+	case "Product.image":
+		if e.complexity.Product.Image == nil {
+			break
+		}
+
+		return e.complexity.Product.Image(childComplexity), true
 
 	case "Product.name":
 		if e.complexity.Product.Name == nil {
@@ -464,6 +472,7 @@ type Product {
   discount: Float!
   rating: Int!
   quantity: Int!
+  image: [String!]!
   weightOptions: [WeightOption!]!
   createdAt: Time!
   updatedAt: Time!
@@ -508,6 +517,7 @@ input ProductInput {
   discount: Float!
   rating: Int!
   quantity: Int!
+  image: [String!]!
   weightOptions: [WeightOptionInput!]!
 }
 
@@ -901,6 +911,8 @@ func (ec *executionContext) fieldContext_Mutation_createProduct(ctx context.Cont
 				return ec.fieldContext_Product_rating(ctx, field)
 			case "quantity":
 				return ec.fieldContext_Product_quantity(ctx, field)
+			case "image":
+				return ec.fieldContext_Product_image(ctx, field)
 			case "weightOptions":
 				return ec.fieldContext_Product_weightOptions(ctx, field)
 			case "createdAt":
@@ -1365,6 +1377,50 @@ func (ec *executionContext) fieldContext_Product_quantity(_ context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _Product_image(ctx context.Context, field graphql.CollectedField, obj *model.Product) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Product_image(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Image, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]string)
+	fc.Result = res
+	return ec.marshalNString2ᚕstringᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Product_image(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Product",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Product_weightOptions(ctx context.Context, field graphql.CollectedField, obj *model.Product) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Product_weightOptions(ctx, field)
 	if err != nil {
@@ -1676,6 +1732,8 @@ func (ec *executionContext) fieldContext_Query_products(_ context.Context, field
 				return ec.fieldContext_Product_rating(ctx, field)
 			case "quantity":
 				return ec.fieldContext_Product_quantity(ctx, field)
+			case "image":
+				return ec.fieldContext_Product_image(ctx, field)
 			case "weightOptions":
 				return ec.fieldContext_Product_weightOptions(ctx, field)
 			case "createdAt":
@@ -1745,6 +1803,8 @@ func (ec *executionContext) fieldContext_Query_product(ctx context.Context, fiel
 				return ec.fieldContext_Product_rating(ctx, field)
 			case "quantity":
 				return ec.fieldContext_Product_quantity(ctx, field)
+			case "image":
+				return ec.fieldContext_Product_image(ctx, field)
 			case "weightOptions":
 				return ec.fieldContext_Product_weightOptions(ctx, field)
 			case "createdAt":
@@ -4082,7 +4142,7 @@ func (ec *executionContext) unmarshalInputProductInput(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "type", "sku", "status", "price", "discount", "rating", "quantity", "weightOptions"}
+	fieldsInOrder := [...]string{"name", "description", "type", "sku", "status", "price", "discount", "rating", "quantity", "image", "weightOptions"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -4152,6 +4212,13 @@ func (ec *executionContext) unmarshalInputProductInput(ctx context.Context, obj 
 				return it, err
 			}
 			it.Quantity = data
+		case "image":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("image"))
+			data, err := ec.unmarshalNString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Image = data
 		case "weightOptions":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("weightOptions"))
 			data, err := ec.unmarshalNWeightOptionInput2ᚕᚖgithubᚗcomᚋngocxxuᚋgroceryᚑstoreᚑsvelteᚑbeᚋgraphᚋmodelᚐWeightOptionInputᚄ(ctx, v)
@@ -4321,6 +4388,11 @@ func (ec *executionContext) _Product(ctx context.Context, sel ast.SelectionSet, 
 			}
 		case "quantity":
 			out.Values[i] = ec._Product_quantity(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "image":
+			out.Values[i] = ec._Product_image(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
@@ -5103,6 +5175,38 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNString2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]string, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNString2string(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalNString2ᚕstringᚄ(ctx context.Context, sel ast.SelectionSet, v []string) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNString2string(ctx, sel, v[i])
+	}
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) unmarshalNTime2timeᚐTime(ctx context.Context, v interface{}) (time.Time, error) {

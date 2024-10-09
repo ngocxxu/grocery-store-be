@@ -29,6 +29,7 @@ func (r *ProductResolver) CreateProduct(ctx context.Context, input *graphModel.P
 		Status:        input.Status,
 		Price:         input.Price,
 		Discount:      input.Discount,
+		Image:         input.Image,
 		Rating:        uint(input.Rating),
 		Quantity:      uint(input.Quantity),
 		WeightOptions: make([]internalModel.WeightOption, len(input.WeightOptions)),

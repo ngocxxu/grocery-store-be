@@ -27,7 +27,8 @@ This project is a backend application using Go, GraphQL, and PostgreSQL with GOR
 - Update the database connection string in `internal/config/config.go` if necessary.
 
 1. Generate GraphQL code:
-   `go run [github.com/99designs/gqlgen](http://github.com/99designs/gqlgen) generate`
+   - `go get github.com/99designs/gqlgen@v0.17.55`
+   - `go run [github.com/99designs/gqlgen](http://github.com/99designs/gqlgen) generate`
 
 ## Configuration
 

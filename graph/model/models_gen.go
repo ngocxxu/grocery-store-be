@@ -20,6 +20,7 @@ type Product struct {
 	Discount      float64         `json:"discount"`
 	Rating        int             `json:"rating"`
 	Quantity      int             `json:"quantity"`
+	Image         []string        `json:"image"`
 	WeightOptions []*WeightOption `json:"weightOptions"`
 	CreatedAt     time.Time       `json:"createdAt"`
 	UpdatedAt     time.Time       `json:"updatedAt"`
@@ -35,6 +36,7 @@ type ProductInput struct {
 	Discount      float64              `json:"discount"`
 	Rating        int                  `json:"rating"`
 	Quantity      int                  `json:"quantity"`
+	Image         []string             `json:"image"`
 	WeightOptions []*WeightOptionInput `json:"weightOptions"`
 }
 

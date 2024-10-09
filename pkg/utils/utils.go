@@ -34,6 +34,7 @@ func ConvertToGraphProduct(product *internalModel.Product) *graphModel.Product {
 		Status:        product.Status,
 		Price:         product.Price,
 		Discount:      product.Discount,
+        Image:         product.Image,
 		Rating:        int(product.Rating),
 		Quantity:      int(product.Quantity),
 		WeightOptions: ConvertToGraphWeightOptions(product.WeightOptions),
