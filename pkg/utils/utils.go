@@ -19,6 +19,11 @@ func ConvertToGraphWeightOptions(internalWeightOptions []internalModel.WeightOpt
 		graphWeightOptions[i] = &graphModel.WeightOption{
 			Weight: opt.Weight,
 			ID:     strconv.FormatUint(uint64(opt.UnitID), 10),
+			Unit: &graphModel.Unit{
+				ID:           strconv.FormatUint(uint64(opt.Unit.ID), 10),
+				Name:         opt.Unit.Name,
+				Abbreviation: opt.Unit.Abbreviation,
+			},
 		}
 	}
 	return graphWeightOptions
