@@ -14,8 +14,12 @@ import (
 	"github.com/ngocxxu/grocery-store-svelte-be/pkg/utils"
 )
 
+type ProductResolver struct {
+	*Resolver
+}
+
 // CreateProduct is the resolver for the createProduct field.
-func (r *Resolver) CreateProduct(ctx context.Context, input *graphModel.ProductInput) (*graphModel.Product, error) {
+func (r *ProductResolver) CreateProduct(ctx context.Context, input *graphModel.ProductInput) (*graphModel.Product, error) {
 	// Convert graph type to internal type
 	internalProduct := &internalModel.Product{
 		Name:          input.Name,
@@ -50,7 +54,7 @@ func (r *Resolver) CreateProduct(ctx context.Context, input *graphModel.ProductI
 }
 
 // Products is the resolver for the products field.
-func (r *Resolver) Products(ctx context.Context) ([]*graphModel.Product, error) {
+func (r *ProductResolver) Products(ctx context.Context) ([]*graphModel.Product, error) {
 	products, err := r.ProductService.GetProducts()
 	if err != nil {
 		return nil, err
@@ -63,7 +67,7 @@ func (r *Resolver) Products(ctx context.Context) ([]*graphModel.Product, error) 
 }
 
 // Product is the resolver for the product field.
-func (r *Resolver) Product(ctx context.Context, id string) (*graphModel.Product, error) {
+func (r *ProductResolver) Product(ctx context.Context, id string) (*graphModel.Product, error) {
 	product, err := r.ProductService.GetProduct(id)
 	if err != nil {
 		return nil, err

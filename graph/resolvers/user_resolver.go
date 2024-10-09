@@ -11,8 +11,12 @@ import (
 	"github.com/ngocxxu/grocery-store-svelte-be/graph/model"
 )
 
+type UserResolver struct {
+	*Resolver
+}
+
 // CreateUser is the resolver for the createUser field.
-func (r *Resolver) CreateUser(ctx context.Context, name string, email string) (*model.User, error) {
+func (r *UserResolver) CreateUser(ctx context.Context, name string, email string) (*model.User, error) {
 	user, err := r.UserService.CreateUser(name, email)
 	if err != nil {
 		return nil, err
@@ -25,7 +29,7 @@ func (r *Resolver) CreateUser(ctx context.Context, name string, email string) (*
 }
 
 // Users is the resolver for the users field.
-func (r *Resolver) Users(ctx context.Context) ([]*model.User, error) {
+func (r *UserResolver) Users(ctx context.Context) ([]*model.User, error) {
 	users, err := r.UserService.GetUsers()
 	if err != nil {
 		return nil, err
@@ -42,7 +46,7 @@ func (r *Resolver) Users(ctx context.Context) ([]*model.User, error) {
 }
 
 // User is the resolver for the user field.
-func (r *Resolver) User(ctx context.Context, id string) (*model.User, error) {
+func (r *UserResolver) User(ctx context.Context, id string) (*model.User, error) {
 	user, err := r.UserService.GetUser(id)
 	if err != nil {
 		return nil, err
