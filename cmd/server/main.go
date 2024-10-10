@@ -13,26 +13,26 @@ import (
 )
 
 func main() {
-    cfg := config.New()
-    database, err := db.New(cfg.DatabaseURL)
-    if err != nil {
-        log.Fatalf("Failed to connect to database: %v", err)
-    }
+	cfg := config.New()
+	database, err := db.New(cfg.DatabaseURL)
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
 
-    // Run migrations
-    if err := migrations.RunMigrations(database); err != nil {
-        log.Fatalf("Failed to run migrations: %v", err)
-    }
+	// Run migrations
+	if err := migrations.RunMigrations(database); err != nil {
+		log.Fatalf("Failed to run migrations: %v", err)
+	}
 
-    userRepo := repository.NewUserRepository(database)
-    userService := service.NewUserService(userRepo)
+	userRepo := repository.NewUserRepository(database)
+	userService := service.NewUserService(userRepo)
 
-    productRepo := repository.NewProductRepository(database)
-    productService := service.NewProductService(productRepo)
+	productRepo := repository.NewProductRepository(database)
+	productService := service.NewProductService(productRepo)
 
-    http.Handle("/", handler.NewPlaygroundHandler())
-    http.Handle("/query", handler.NewGraphQLHandler(userService, productService))
+	http.Handle("/", handler.NewPlaygroundHandler())
+	http.Handle("/graphql", handler.NewGraphQLHandler(userService, productService))
 
-    log.Printf("Connect to http://localhost:%s/ for GraphQL playground", cfg.Port)
-    log.Fatal(http.ListenAndServe(":"+cfg.Port, nil))
+	log.Printf("Connect to http://localhost:%s/ for GraphQL playground", cfg.Port)
+	log.Fatal(http.ListenAndServe(":"+cfg.Port, nil))
 }
