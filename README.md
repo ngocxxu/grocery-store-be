@@ -19,19 +19,19 @@ This project is a backend application using Go, GraphQL, and PostgreSQL with GOR
 
 - Create a new PostgreSQL database:
 
-  ```
-  docker exec -it local_pgdb psql -U admin -c "CREATE DATABASE grocery_db;"
-  ```
+```
+docker exec -it local_pgdb psql -U admin -c "CREATE DATABASE grocery_db;"
+```
 
 - Update the database connection string in `internal/config/config.go` if necessary.
 
 1. Generate GraphQL code:
 
-   ```
-   go get github.com/99designs/gqlgen@v0.17.55
+```
+go get github.com/99designs/gqlgen@v0.17.55
 
-   go run [github.com/99designs/gqlgen](http://github.com/99designs/gqlgen) generate
-   ```
+go run [github.com/99designs/gqlgen](http://github.com/99designs/gqlgen) generate
+```
 
 ## Configuration
 
@@ -41,7 +41,11 @@ This project is a backend application using Go, GraphQL, and PostgreSQL with GOR
 ## Running the Application
 
 1. Start the server:
-   `go run cmd/server/main.go`
+
+```
+go run cmd/server/main.go
+```
+
 2. The GraphQL playground will be available at `http://localhost:8080`.
 
 ## Database Migrations
