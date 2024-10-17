@@ -1,13 +1,14 @@
-FROM golang:1.23.2
-
+# Build stage
+FROM golang:1.23.2 AS builder
 WORKDIR /app
-
 COPY . .
-
 RUN go build -o main .
 
+# Final stage
+FROM alpine:3.20.0
+WORKDIR /root/
+COPY --from=builder /app/main .
 EXPOSE 8080
-
 CMD ["./main"]
 
 ENV POSTGRES_HOST=postgres
