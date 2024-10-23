@@ -19,6 +19,7 @@ type Product {
   weightOptions: [WeightOption!]!
   createdAt: Time!
   updatedAt: Time!
+  categories: [Category!]!
 }
 
 type WeightOption {
@@ -31,6 +32,13 @@ type Unit {
   id: ID!
   name: String!
   abbreviation: String!
+}
+
+type Category {
+  id: ID!
+  name: String!
+  description: String!
+  products: [Product!]!
 }
 
 type Query {

@@ -18,4 +18,5 @@ type Product struct {
 	Sku           string         `gorm:"uniqueIndex;size:50" json:"sku"`
 	Status        string         `gorm:"size:20" json:"status"`
 	Discount      float64        `gorm:"type:decimal(5,2)" json:"discount"`
+	Categories    []Category     `gorm:"many2many:product_categories;" json:"categories"`
 }

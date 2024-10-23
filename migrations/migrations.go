@@ -48,6 +48,24 @@ var migrations = []Migration{
 			return db.Migrator().DropTable("weight_options")
 		},
 	},
+	{
+		ID: "202310065_create_categories_table",
+		Migrate: func(db *gorm.DB) error {
+			return db.AutoMigrate(&model.Category{})
+		},
+		Rollback: func(db *gorm.DB) error {
+			return db.Migrator().DropTable("categories")
+		},
+	},
+	{
+		ID: "202310066_create_product_categories_table",
+		Migrate: func(db *gorm.DB) error {
+			return db.AutoMigrate(&model.ProductCategory{})
+		},
+		Rollback: func(db *gorm.DB) error {
+			return db.Migrator().DropTable("product_categories")
+		},
+	},
 }
 
 func RunMigrations(db *gorm.DB) error {
