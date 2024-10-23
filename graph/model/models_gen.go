@@ -6,6 +6,13 @@ import (
 	"time"
 )
 
+type Category struct {
+	ID          string     `json:"id"`
+	Name        string     `json:"name"`
+	Description string     `json:"description"`
+	Products    []*Product `json:"products"`
+}
+
 type Mutation struct {
 }
 
@@ -24,6 +31,7 @@ type Product struct {
 	WeightOptions []*WeightOption `json:"weightOptions"`
 	CreatedAt     time.Time       `json:"createdAt"`
 	UpdatedAt     time.Time       `json:"updatedAt"`
+	Categories    []*Category     `json:"categories"`
 }
 
 type ProductInput struct {

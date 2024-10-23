@@ -10,10 +10,10 @@ import (
 	"github.com/ngocxxu/grocery-store-svelte-be/internal/service"
 )
 
-//go:generate go run github.com/99designs/gqlgen generate
 type Resolver struct {
-	UserService    *service.UserService
-	ProductService *service.ProductService
+	UserService     *service.UserService
+	ProductService  *service.ProductService
+	CategoryService *service.CategoryService
 }
 
 // USER
@@ -44,6 +44,16 @@ func (r *queryResolver) Products(ctx context.Context) ([]*model.Product, error) 
 // Product is the resolver for the product field.
 func (r *queryResolver) Product(ctx context.Context, id string) (*model.Product, error) {
 	return (&ProductResolver{r.Resolver}).Product(ctx, id)
+}
+
+func (r *mutationResolver) CreateCategory(ctx context.Context, name string, email string) (*model.Category, error) {
+	return (&CategoryResolver{r.Resolver}).CreateCategory(ctx, name, email)
+}
+func (r *queryResolver) Categories(ctx context.Context) ([]*model.Category, error) {
+	return (&CategoryResolver{r.Resolver}).Categories(ctx)
+}
+func (r *queryResolver) Category(ctx context.Context, id string) (*model.Category, error) {
+	return (&CategoryResolver{r.Resolver}).Category(ctx, id)
 }
 
 // Mutation returns generated.MutationResolver implementation.

@@ -30,7 +30,7 @@ docker exec -it local_pgdb psql -U admin -c "CREATE DATABASE grocery_db;"
 ```
 go get github.com/99designs/gqlgen@v0.17.55
 
-go run [github.com/99designs/gqlgen](http://github.com/99designs/gqlgen) generate
+go run github.com/99designs/gqlgen generate
 ```
 
 ## Configuration
