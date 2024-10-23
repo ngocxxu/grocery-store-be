@@ -21,12 +21,26 @@ func main() {
 		{Name: "Gram", Abbreviation: "g"},
 	}
 
+	categories := []model.Category{
+		{Name: "Fruits & vegetables", Description: "The list of Fruits & vegetables"},
+		{Name: "Meat & fish", Description: "The list of Meat & fish"},
+	}
+
 	for _, unit := range units {
 		result := database.Create(&unit)
 		if result.Error != nil {
 			log.Printf("Failed to seed unit %s: %v", unit.Name, result.Error)
 		} else {
 			log.Printf("Seeded unit: %s", unit.Name)
+		}
+	}
+
+	for _, category := range categories {
+		result := database.Create(&category)
+		if result.Error != nil {
+			log.Printf("Failed to seed category %s: %v", category.Name, result.Error)
+		} else {
+			log.Printf("Seeded category: %s", category.Name)
 		}
 	}
 
