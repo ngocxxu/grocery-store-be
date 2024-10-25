@@ -58,6 +58,12 @@ input WeightOptionInput {
   unitId: ID! # We use ID instead of Unit object
 }
 
+input CategoryInput {
+  name: String!
+  description: String!
+  products: [ID!]
+}
+
 input ProductInput {
   name: String!
   description: String!
@@ -70,6 +76,7 @@ input ProductInput {
   quantity: Int!
   image: [String!]!
   weightOptions: [WeightOptionInput!]!
+  categories: [CategoryInput!]!
 }
 
 scalar Time

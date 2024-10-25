@@ -399,6 +399,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 	rc := graphql.GetOperationContext(ctx)
 	ec := executionContext{rc, e, 0, 0, make(chan graphql.DeferredResult)}
 	inputUnmarshalMap := graphql.BuildUnmarshalerMap(
+		ec.unmarshalInputCategoryInput,
 		ec.unmarshalInputProductInput,
 		ec.unmarshalInputWeightOptionInput,
 	)
@@ -558,6 +559,12 @@ input WeightOptionInput {
   unitId: ID! # We use ID instead of Unit object
 }
 
+input CategoryInput {
+  name: String!
+  description: String!
+  products: [ID!]
+}
+
 input ProductInput {
   name: String!
   description: String!
@@ -570,6 +577,7 @@ input ProductInput {
   quantity: Int!
   image: [String!]!
   weightOptions: [WeightOptionInput!]!
+  categories: [CategoryInput!]!
 }
 
 scalar Time
@@ -4454,6 +4462,47 @@ func (ec *executionContext) fieldContext___Type_specifiedByURL(_ context.Context
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputCategoryInput(ctx context.Context, obj interface{}) (model.CategoryInput, error) {
+	var it model.CategoryInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"name", "description", "products"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "name":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Name = data
+		case "description":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
+			data, err := ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Description = data
+		case "products":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("products"))
+			data, err := ec.unmarshalOID2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Products = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputProductInput(ctx context.Context, obj interface{}) (model.ProductInput, error) {
 	var it model.ProductInput
 	asMap := map[string]interface{}{}
@@ -4461,7 +4510,7 @@ func (ec *executionContext) unmarshalInputProductInput(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "type", "sku", "status", "price", "discount", "rating", "quantity", "image", "weightOptions"}
+	fieldsInOrder := [...]string{"name", "description", "type", "sku", "status", "price", "discount", "rating", "quantity", "image", "weightOptions", "categories"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -4545,6 +4594,13 @@ func (ec *executionContext) unmarshalInputProductInput(ctx context.Context, obj 
 				return it, err
 			}
 			it.WeightOptions = data
+		case "categories":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("categories"))
+			data, err := ec.unmarshalNCategoryInput2ᚕᚖgithubᚗcomᚋngocxxuᚋgroceryᚑstoreᚑsvelteᚑbeᚋgraphᚋmodelᚐCategoryInputᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Categories = data
 		}
 	}
 
@@ -5486,6 +5542,28 @@ func (ec *executionContext) marshalNCategory2ᚖgithubᚗcomᚋngocxxuᚋgrocery
 	return ec._Category(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNCategoryInput2ᚕᚖgithubᚗcomᚋngocxxuᚋgroceryᚑstoreᚑsvelteᚑbeᚋgraphᚋmodelᚐCategoryInputᚄ(ctx context.Context, v interface{}) ([]*model.CategoryInput, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.CategoryInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNCategoryInput2ᚖgithubᚗcomᚋngocxxuᚋgroceryᚑstoreᚑsvelteᚑbeᚋgraphᚋmodelᚐCategoryInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalNCategoryInput2ᚖgithubᚗcomᚋngocxxuᚋgroceryᚑstoreᚑsvelteᚑbeᚋgraphᚋmodelᚐCategoryInput(ctx context.Context, v interface{}) (*model.CategoryInput, error) {
+	res, err := ec.unmarshalInputCategoryInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
 	res, err := graphql.UnmarshalFloatContext(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -6077,6 +6155,44 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	}
 	res := graphql.MarshalBoolean(*v)
 	return res
+}
+
+func (ec *executionContext) unmarshalOID2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]string, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNID2string(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOID2ᚕstringᚄ(ctx context.Context, sel ast.SelectionSet, v []string) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNID2string(ctx, sel, v[i])
+	}
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) marshalOProduct2ᚖgithubᚗcomᚋngocxxuᚋgroceryᚑstoreᚑsvelteᚑbeᚋgraphᚋmodelᚐProduct(ctx context.Context, sel ast.SelectionSet, v *model.Product) graphql.Marshaler {

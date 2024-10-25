@@ -13,7 +13,6 @@ type Product struct {
 	Rating        uint           `json:"rating"`
 	Image         pq.StringArray `gorm:"type:text[]" json:"image"`
 	WeightOptions []WeightOption `gorm:"foreignKey:ProductID" json:"weight_options"`
-	Type          string         `gorm:"size:50" json:"type"`
 	Quantity      uint           `json:"quantity"`
 	Sku           string         `gorm:"uniqueIndex;size:50" json:"sku"`
 	Status        string         `gorm:"size:20" json:"status"`

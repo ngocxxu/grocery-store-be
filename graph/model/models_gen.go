@@ -13,6 +13,12 @@ type Category struct {
 	Products    []*Product `json:"products"`
 }
 
+type CategoryInput struct {
+	Name        string   `json:"name"`
+	Description string   `json:"description"`
+	Products    []string `json:"products,omitempty"`
+}
+
 type Mutation struct {
 }
 
@@ -46,6 +52,7 @@ type ProductInput struct {
 	Quantity      int                  `json:"quantity"`
 	Image         []string             `json:"image"`
 	WeightOptions []*WeightOptionInput `json:"weightOptions"`
+	Categories    []*CategoryInput     `json:"categories"`
 }
 
 type Query struct {

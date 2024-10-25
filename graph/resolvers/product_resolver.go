@@ -24,7 +24,6 @@ func (r *ProductResolver) CreateProduct(ctx context.Context, input *graphModel.P
 	internalProduct := &internalModel.Product{
 		Name:          input.Name,
 		Description:   input.Description,
-		Type:          input.Type,
 		Sku:           input.Sku,
 		Status:        input.Status,
 		Price:         input.Price,
@@ -33,6 +32,7 @@ func (r *ProductResolver) CreateProduct(ctx context.Context, input *graphModel.P
 		Rating:        uint(input.Rating),
 		Quantity:      uint(input.Quantity),
 		WeightOptions: make([]internalModel.WeightOption, len(input.WeightOptions)),
+		Categories:    make([]internalModel.Category, len(input.Categories)),
 	}
 
 	for i, optInput := range input.WeightOptions {
@@ -45,10 +45,22 @@ func (r *ProductResolver) CreateProduct(ctx context.Context, input *graphModel.P
 			Weight: optInput.Weight,
 			UnitID: uint(unitID),
 		}
+	}
 
-		internalProduct.WeightOptions[i] = internalModel.WeightOption{
-			Weight: optInput.Weight,
-			UnitID: uint(unitID),
+	for i, optInput := range input.Categories {
+		var products []internalModel.Product
+		for _, productID := range optInput.Products {
+			product, err := r.ProductService.GetProduct(productID)
+			if err != nil {
+				return nil, fmt.Errorf("product not found: %v", err)
+			}
+			products = append(products, *product)
+		}
+
+		internalProduct.Categories[i] = internalModel.Category{
+			Name:        optInput.Name,
+			Description: optInput.Description,
+			Products:    products,
 		}
 	}
 
@@ -58,9 +70,9 @@ func (r *ProductResolver) CreateProduct(ctx context.Context, input *graphModel.P
 	}
 
 	return utils.ConvertToGraphProduct(product), nil
+
 }
 
-// Products is the resolver for the products field.
 func (r *ProductResolver) Products(ctx context.Context) ([]*graphModel.Product, error) {
 	products, err := r.ProductService.GetProducts()
 	if err != nil {

@@ -28,12 +28,33 @@ func ConvertToGraphWeightOptions(internalWeightOptions []internalModel.WeightOpt
 	}
 	return graphWeightOptions
 }
+
+func ConvertToGraphCategories(internalCategories []internalModel.Category) []*graphModel.Category {
+	graphCategories := make([]*graphModel.Category, len(internalCategories))
+	for i, opt := range internalCategories {
+		graphCategories[i] = &graphModel.Category{
+			ID:          strconv.FormatUint(uint64(opt.ID), 10),
+			Name:        opt.Name,
+			Description: opt.Description,
+			Products:    ConvertToGraphProducts(opt.Products),
+		}
+	}
+	return graphCategories
+}
+
+func ConvertToGraphProducts(internalProducts []internalModel.Product) []*graphModel.Product {
+	graphProducts := make([]*graphModel.Product, len(internalProducts))
+	for i, product := range internalProducts {
+		graphProducts[i] = ConvertToGraphProduct(&product)
+	}
+	return graphProducts
+}
+
 func ConvertToGraphProduct(product *internalModel.Product) *graphModel.Product {
 	return &graphModel.Product{
 		ID:            strconv.FormatUint(uint64(product.ID), 10),
 		Name:          product.Name,
 		Description:   product.Description,
-		Type:          product.Type,
 		Sku:           product.Sku,
 		Status:        product.Status,
 		Price:         product.Price,
