@@ -8,7 +8,7 @@ RUN go build -o main .
 FROM alpine:3.20.0
 WORKDIR /root/
 COPY --from=builder /app/main .
-EXPOSE 8080
+EXPOSE 8030
 ENV POSTGRES_HOST=postgres
 ENV DATABASE_URL=${DATABASE_URL}
 ENV POSTGRES_USER=${POSTGRES_USER}

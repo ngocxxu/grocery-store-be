@@ -46,7 +46,7 @@ go run github.com/99designs/gqlgen generate
 go run cmd/server/main.go
 ```
 
-2. The GraphQL playground will be available at `http://localhost:8080`.
+2. The GraphQL playground will be available at `http://localhost:8030`.
 
 ## Database Migrations
 
