@@ -43,7 +43,7 @@ go run github.com/99designs/gqlgen generate
 1. Start the server:
 
 ```
-go run cmd/server/main.go
+go run main.go
 ```
 
 2. The GraphQL playground will be available at `http://localhost:8030`.
@@ -216,7 +216,7 @@ func NewGraphQLHandler(userService *service.UserService, productService *service
 }
 ```
 
-### Go into `cmd/server/main.go`
+### Go into `main.go`
 
 ```
 productRepo := repository.NewProductRepository(database)
@@ -283,7 +283,7 @@ func (r *ProductResolver) DeleteProduct(ctx context.Context, args struct{ ID str
 
 ## Step 8: Combine resolver into graphql
 
-### Go into `cmd/server/main.go`
+### Go into `main.go`
 
 ```
 func main() {
