@@ -14,5 +14,5 @@ func NewGraphQLHandler(userService *service.UserService, productService *service
 	return handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{UserService: userService, ProductService: productService}}))
 }
 func NewPlaygroundHandler() http.Handler {
-	return playground.Handler("GraphQL playground", "/query")
+	return playground.Handler("GraphQL playground", "/app2/query")
 }

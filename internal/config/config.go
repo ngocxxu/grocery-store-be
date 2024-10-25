@@ -18,7 +18,7 @@ func New() *Config {
 	}
 
 	return &Config{
-		DatabaseURL: getEnv("DATABASE_URL", ""),
+		DatabaseURL: getEnv("POSTGRES_DB_URL", ""),
 		Port:        getEnv("PORT", "8030"),
 	}
 }

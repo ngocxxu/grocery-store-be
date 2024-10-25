@@ -31,7 +31,7 @@ func main() {
 	productService := service.NewProductService(productRepo)
 
 	http.Handle("/", handler.NewPlaygroundHandler())
-	http.Handle("/query", handler.NewGraphQLHandler(userService, productService))
+	http.Handle("/app2/query", handler.NewGraphQLHandler(userService, productService))
 
 	log.Printf("Connect to http://localhost:%s/ for GraphQL playground", cfg.Port)
 	log.Fatal(http.ListenAndServe(":"+cfg.Port, nil))
