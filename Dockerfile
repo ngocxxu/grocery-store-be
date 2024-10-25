@@ -1,18 +1,3 @@
-FROM golang:1.23.2-alpine
-WORKDIR /app
-COPY . .
-RUN go mod download
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build  -o /out/main ./
-EXPOSE 8083
-
-ENV POSTGRES_HOST=postgres
-ENV POSTGRES_DB_URL=${POSTGRES_DB_URL}
-ENV POSTGRES_USER=${POSTGRES_USER}
-ENV POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-ENV POSTGRES_DB=${POSTGRES_DB}
-
-ENTRYPOINT ["/out/main"]
-
 # Giai đoạn 1: Dependency stage
 FROM golang:1.23.2 AS builder
 WORKDIR /app
