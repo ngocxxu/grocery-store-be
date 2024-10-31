@@ -19,8 +19,9 @@ COPY . .
 RUN go build -o main ./main.go
 
 # Giai đoạn 2: Final stage
-# FROM alpine:3.20.0
-# COPY --from=builder /app/main .
+FROM alpine:3.20.0
+COPY --from=builder /app/main .
+COPY .env /app
 
 EXPOSE 8030
 CMD ["./main"]
