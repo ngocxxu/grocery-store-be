@@ -18,7 +18,7 @@ func New() *Config {
 	}
 
 	return &Config{
-		DatabaseURL: getEnv("POSTGRES_DB_URL", ""),
+		DatabaseURL: getEnv("POSTGRES_DB_URL", "postgresql://grocery_db_owner:wWy5z0donATi@ep-cold-unit-a1zy5mp1.ap-southeast-1.aws.neon.tech/grocery_db?sslmode=require"),
 		Port:        getEnv("PORT", "8030"),
 	}
 }
