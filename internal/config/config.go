@@ -2,8 +2,7 @@ package config
 
 import (
 	"os"
-
-	"github.com/joho/godotenv"
+	// "github.com/joho/godotenv"
 )
 
 type Config struct {
@@ -12,10 +11,10 @@ type Config struct {
 }
 
 func New() *Config {
-	err := godotenv.Load()
-	if err != nil {
-		panic("Error loading .env file")
-	}
+	// err := godotenv.Load()
+	// if err != nil {
+	// 	panic("Error loading .env file")
+	// }
 
 	return &Config{
 		DatabaseURL: "postgresql://grocery_db_owner:wWy5z0donATi@ep-cold-unit-a1zy5mp1.ap-southeast-1.aws.neon.tech/grocery_db?sslmode=require",
